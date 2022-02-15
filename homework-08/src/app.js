@@ -119,16 +119,28 @@ const onEscPress = e => {
 	refs.lightBoxEl.classList.remove('is-open');
 	}
 }
-const onRightArrowPress = e => {
-	if (!refs.lightBoxEl.classList.contains('is-open')) {
+const onLeftArrowPress = e => {
+	if (!refs.lightBoxEl.classList.contains('is-open') || e.code !='ArrowLeft') {
 		return
 	}
-	console.log(e.target.href);
 	for (let i = 0; i < galleryItems.length; i += 1){
-		if (e.target.href.toString() === galleryItems[i].original.toString()) {
+		if (e.target.href === galleryItems[i].original) {
+			refs.imageEl.alt = galleryItems[i - 1].description
+			refs.imageEl.src = galleryItems[i - 1].original
+			return e.target.href = galleryItems[i - 1].original;
+		}
+	}
+	// console.log(e.code='ArrowRight');
+}
+const onRightArrowPress = e => {
+	if (!refs.lightBoxEl.classList.contains('is-open') || e.code !='ArrowRight') {
+		return
+	}
+	for (let i = 0; i < galleryItems.length; i += 1){
+		if (e.target.href === galleryItems[i].original) {
 			refs.imageEl.alt = galleryItems[i + 1].description
 			refs.imageEl.src = galleryItems[i + 1].original
-			return
+			return e.target.href = galleryItems[i + 1].original;
 		}
 	}
 	// console.log(e.code='ArrowRight');
@@ -139,4 +151,5 @@ refs.galleryEl.addEventListener('click', onPreviewClick)
 refs.closeBtnEl.addEventListener('click', onCloseBtnClick)
 refs.lightBoxEl.addEventListener('click', onOverlayClick)
 window.addEventListener('keydown', onEscPress)
+window.addEventListener('keydown', onLeftArrowPress)
 window.addEventListener('keydown', onRightArrowPress)
